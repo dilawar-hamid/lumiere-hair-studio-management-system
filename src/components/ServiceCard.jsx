@@ -9,7 +9,7 @@ function ServiceCard({
   return (
     <div className="col-md-4 text-center justify-content-center">
       <div
-        className="card border-0 h-100"
+        className="card text-center justify-content-center border-0 h-100"
         style={{
           backgroundColor: "#FAF9F7",
           borderRadius: "0",

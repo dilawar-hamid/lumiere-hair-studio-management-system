@@ -23,7 +23,6 @@ svg {
 }
 
 .container,
-.container-fluid,
-.row {
+.container-fluid{
   max-width: 100%;
 }
