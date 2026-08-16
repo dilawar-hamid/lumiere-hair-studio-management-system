@@ -1,6 +1,46 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import ServiceCard from "../components/ServiceCard";
+import StaffCard from "../components/StaffCard";
 
 function Home() {
+  const [services, setServices] = useState([]);
+  const [staff, setStaff] = useState([]);
+
+  const SERVICES_API =
+    "https://6a703a6055c0ce38c32604ba.mockapi.io/services";
+
+  const STAFF_API =
+    "https://6a703a6055c0ce38c32604ba.mockapi.io/staff";
+
+  async function getServices() {
+    try {
+      const res = await axios.get(SERVICES_API);
+
+      setServices(Array.isArray(res.data) ? res.data : []);
+    } catch (error) {
+      console.log("Error fetching services:", error);
+      setServices([]);
+    }
+  }
+
+  async function getStaff() {
+    try {
+      const res = await axios.get(STAFF_API);
+
+      setStaff(Array.isArray(res.data) ? res.data : []);
+    } catch (error) {
+      console.log("Error fetching staff:", error);
+      setStaff([]);
+    }
+  }
+
+  useEffect(() => {
+    getServices();
+    getStaff();
+  }, []);
+
   return (
     <>
       {/* Hero Section */}
@@ -173,164 +213,35 @@ function Home() {
           </div>
 
           <div className="row g-4">
-
-            {/* Service Card 1 */}
-            <div className="col-md-4">
-              <div
-                className="card border-0 h-100"
-                style={{
-                  backgroundColor: "#FAF9F7",
-                  borderRadius: "0",
-                  borderBottom: "3px solid #A68B6A",
-                }}
-              >
-                <div
-                  style={{
-                    height: "220px",
-                    backgroundColor: "#EDE5DB",
-                  }}
-                ></div>
-
-                <div className="card-body p-4">
-                  <span
-                    className="small"
-                    style={{ color: "#A68B6A" }}
-                  >
-                    Hair Care
-                  </span>
-
-                  <h5
-                    className="fw-bold mt-2"
-                    style={{ color: "#161412" }}
-                  >
-                    Classic Haircut
-                  </h5>
-
-                  <p
-                    className="mb-3"
-                    style={{ color: "#6F6861" }}
-                  >
-                    A professional haircut designed around your personal style.
-                  </p>
-
-                  <div className="d-flex justify-content-between align-items-center">
-                    <strong style={{ color: "#161412" }}>
-                      Rs. 1,500
-                    </strong>
-
-                    <small style={{ color: "#6F6861" }}>
-                      30 Minutes
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Service Card 2 */}
-            <div className="col-md-4">
-              <div
-                className="card border-0 h-100"
-                style={{
-                  backgroundColor: "#FAF9F7",
-                  borderRadius: "0",
-                  borderBottom: "3px solid #A68B6A",
-                }}
-              >
-                <div
-                  style={{
-                    height: "220px",
-                    backgroundColor: "#EDE5DB",
-                  }}
-                ></div>
-
-                <div className="card-body p-4">
-                  <span
-                    className="small"
-                    style={{ color: "#A68B6A" }}
-                  >
-                    Styling
-                  </span>
-
-                  <h5
-                    className="fw-bold mt-2"
-                    style={{ color: "#161412" }}
-                  >
-                    Hair Styling
-                  </h5>
-
-                  <p
-                    className="mb-3"
-                    style={{ color: "#6F6861" }}
-                  >
-                    Get a polished look for everyday style or special occasions.
-                  </p>
-
-                  <div className="d-flex justify-content-between align-items-center">
-                    <strong style={{ color: "#161412" }}>
-                      Rs. 2,000
-                    </strong>
-
-                    <small style={{ color: "#6F6861" }}>
-                      45 Minutes
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Service Card 3 */}
-            <div className="col-md-4">
-              <div
-                className="card border-0 h-100"
-                style={{
-                  backgroundColor: "#FAF9F7",
-                  borderRadius: "0",
-                  borderBottom: "3px solid #A68B6A",
-                }}
-              >
-                <div
-                  style={{
-                    height: "220px",
-                    backgroundColor: "#EDE5DB",
-                  }}
-                ></div>
-
-                <div className="card-body p-4">
-                  <span
-                    className="small"
-                    style={{ color: "#A68B6A" }}
-                  >
-                    Hair Treatment
-                  </span>
-
-                  <h5
-                    className="fw-bold mt-2"
-                    style={{ color: "#161412" }}
-                  >
-                    Complete Hair Treatment
-                  </h5>
-
-                  <p
-                    className="mb-3"
-                    style={{ color: "#6F6861" }}
-                  >
-                    Give your hair the care it needs with a professional treatment.
-                  </p>
-
-                  <div className="d-flex justify-content-between align-items-center">
-                    <strong style={{ color: "#161412" }}>
-                      Rs. 3,500
-                    </strong>
-
-                    <small style={{ color: "#6F6861" }}>
-                      60 Minutes
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            {services.slice(0, 3).map((item) => (
+              <ServiceCard
+                key={item.id}
+                name={item.serviceName}
+                category={item.category}
+                price={item.price}
+                duration={item.duration}
+                description={item.description}
+                image={item.image}
+              />
+            ))}
           </div>
+
+          {/* Empty State */}
+          {services.length === 0 && (
+            <div className="text-center py-5">
+              <h4
+                className="fw-bold"
+                style={{ color: "#161412" }}
+              >
+                No services available
+              </h4>
+
+              <p style={{ color: "#6F6861" }}>
+                Please check back later.
+              </p>
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -381,140 +292,34 @@ function Home() {
           </div>
 
           <div className="row g-4">
-
-            {/* Staff Card 1 */}
-            <div className="col-md-4">
-              <div
-                className="bg-white h-100 p-4"
-                style={{
-                  border: "1px solid #E6DDD3",
-                  borderRadius: "18px",
-                }}
-              >
-                <div
-                  className="mb-4"
-                  style={{
-                    height: "180px",
-                    backgroundColor: "#EDE5DB",
-                  }}
-                ></div>
-
-                <p
-                  className="text-uppercase fw-semibold mb-2"
-                  style={{
-                    fontSize: "12px",
-                    letterSpacing: "1.5px",
-                    color: "#A68B6A",
-                  }}
-                >
-                  Hair Stylist
-                </p>
-
-                <h4
-                  className="fw-bold mb-2"
-                  style={{ color: "#161412" }}
-                >
-                  Staff Member
-                </h4>
-
-                <p
-                  className="mb-0"
-                  style={{ color: "#6F6861" }}
-                >
-                  Professional salon expert dedicated to helping you look your best.
-                </p>
-              </div>
-            </div>
-
-            {/* Staff Card 2 */}
-            <div className="col-md-4">
-              <div
-                className="bg-white h-100 p-4"
-                style={{
-                  border: "1px solid #E6DDD3",
-                  borderRadius: "18px",
-                }}
-              >
-                <div
-                  className="mb-4"
-                  style={{
-                    height: "180px",
-                    backgroundColor: "#EDE5DB",
-                  }}
-                ></div>
-
-                <p
-                  className="text-uppercase fw-semibold mb-2"
-                  style={{
-                    fontSize: "12px",
-                    letterSpacing: "1.5px",
-                    color: "#A68B6A",
-                  }}
-                >
-                  Senior Stylist
-                </p>
-
-                <h4
-                  className="fw-bold mb-2"
-                  style={{ color: "#161412" }}
-                >
-                  Staff Member
-                </h4>
-
-                <p
-                  className="mb-0"
-                  style={{ color: "#6F6861" }}
-                >
-                  Bringing experience, creativity and attention to every detail.
-                </p>
-              </div>
-            </div>
-
-            {/* Staff Card 3 */}
-            <div className="col-md-4">
-              <div
-                className="bg-white h-100 p-4"
-                style={{
-                  border: "1px solid #E6DDD3",
-                  borderRadius: "18px",
-                }}
-              >
-                <div
-                  className="mb-4"
-                  style={{
-                    height: "180px",
-                    backgroundColor: "#EDE5DB",
-                  }}
-                ></div>
-
-                <p
-                  className="text-uppercase fw-semibold mb-2"
-                  style={{
-                    fontSize: "12px",
-                    letterSpacing: "1.5px",
-                    color: "#A68B6A",
-                  }}
-                >
-                  Hair Specialist
-                </p>
-
-                <h4
-                  className="fw-bold mb-2"
-                  style={{ color: "#161412" }}
-                >
-                  Staff Member
-                </h4>
-
-                <p
-                  className="mb-0"
-                  style={{ color: "#6F6861" }}
-                >
-                  Focused on creating a comfortable and personalized salon experience.
-                </p>
-              </div>
-            </div>
-
+            {staff.slice(0, 3).map((item) => (
+              <StaffCard
+                key={item.id}
+                staffName={item.staffName}
+                position={item.position}
+                phone={item.phone}
+                email={item.email}
+                image={item.image}
+              />
+            ))}
           </div>
+
+          {/* Empty State */}
+          {staff.length === 0 && (
+            <div className="text-center py-5">
+              <h4
+                className="fw-bold"
+                style={{ color: "#161412" }}
+              >
+                No staff members found
+              </h4>
+
+              <p style={{ color: "#6F6861" }}>
+                Staff members will appear here once they are added.
+              </p>
+            </div>
+          )}
+
         </div>
       </section>
 
