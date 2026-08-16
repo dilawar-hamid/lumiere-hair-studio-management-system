@@ -7,7 +7,7 @@ function ServiceCard({
   image,
 }) {
   return (
-    <div className="col-md-4">
+    <div className="col-md-4 text-center justify-content-center">
       <div
         className="card border-0 h-100"
         style={{
