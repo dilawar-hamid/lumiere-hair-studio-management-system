@@ -5,12 +5,25 @@
 }
 
 html,
-body {
+body,
+#root {
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
 
-#root {
-  width: 100%;
-  overflow-x: hidden;
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+.container,
+.container-fluid,
+.row {
+  max-width: 100%;
 }
