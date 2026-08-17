@@ -30,7 +30,7 @@ function Bookappointment() {
     try {
       await axios.post(API_URL, values);
 
-      navigate("/viewappointment");
+      navigate("/");
     } catch (error) {
       console.log("Appointment booking error:", error);
     }
