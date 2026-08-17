@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <nav
-      className="navbar navbar-expand-lg py-3"
+      className="navbar navbar-expand-xl py-3"
       style={{
         backgroundColor: "#FAF9F7",
         borderBottom: "2px solid #E6DDD3",
@@ -49,7 +49,7 @@ function Navbar() {
 
         {/* Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-4">
+          <ul className="navbar-nav ms-auto align-items-xl-center gap-xl-4">
 
             <li className="nav-item">
               <Link
@@ -109,7 +109,7 @@ function Navbar() {
             <li className="nav-item">
               <Link
                 to="/bookappointment"
-                className="btn ms-lg-2 px-4 py-2"
+                className="btn ms-xl-2 px-4 py-2"
                 style={{
                   backgroundColor: "#161412",
                   color: "#FFFFFF",
